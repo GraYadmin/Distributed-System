@@ -32,7 +32,7 @@ public class blockTestController {
 				boolean result = stringRedisTemplate.opsForValue().setIfAbsent(lockKey, uuid, 10, TimeUnit.SECONDS);
 				if (result) {
 					/*
-					 * 次线程是为了解决LockKey设置过期时间后，如果请求在LockKey过期
+					 * 此线程是为了解决LockKey设置过期时间后，如果请求在LockKey过期
 					 * 后还没执行完整个程序，则会导致当前请求还未释放锁，就有其他的请求获取了锁
 					 * 最终导致线程不安全，可能会导致锁永久失效，所以在请求获取锁之后，会启动单独一个线程
 					 * 这个线程创建一个定时任务，定期给锁进行续期，定时任务执行周期要小于LockKey的过期时间，
