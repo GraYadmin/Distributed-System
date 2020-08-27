@@ -45,7 +45,7 @@ public class blockTestController {
 								public void run() {
 									stringRedisTemplate.expire(lockKey,10 , TimeUnit.SECONDS);
 									//判断当前请求是否释放锁，如果已释放锁，就将此请求的续期功能关闭
-									if (stringRedisTemplate.opsForValue().get(lockKey) != uuid)
+									if (!stringRedisTemplate.opsForValue().get(lockKey).equals(uuid))
 										this.cancel();
 								}
 							}, 5000, 5000);
